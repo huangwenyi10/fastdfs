@@ -27,6 +27,7 @@
 #include "tracker_global.h"
 #include "tracker_status.h"
 
+//#define <宏名> <字符串>
 #define TRACKER_STATUS_FILENAME			".tracker_status"
 #define TRACKER_STATUS_ITEM_UP_TIME		"up_time"
 #define TRACKER_STATUS_ITEM_LAST_CHECK_TIME	"last_check_time"
@@ -36,10 +37,14 @@ int tracker_write_status_to_file(void *args)
 	char full_filename[MAX_PATH_SIZE];
 	char buff[256];
 	int len;
-
+    //设将可变参数(...)按照 format 格式化成字符串，并将字符串复制到 str 中，
+    // size 为要写入的字符的最大数目，超过 size 会被截断。
+    //g_fdfs_base_path = /tmp
+    //完整地址：/tmp/data/.tracker_status
 	snprintf(full_filename, sizeof(full_filename), "%s/data/%s", \
 		g_fdfs_base_path, TRACKER_STATUS_FILENAME);
-
+    //sprintf: 把格式化的数据写入某个字符串缓冲区
+    //snprintf: 有长度限制地，把格式化的数据写入某个字符串缓冲区
 	len = sprintf(buff, "%s=%d\n" \
 		      "%s=%d\n",
 		TRACKER_STATUS_ITEM_UP_TIME, (int)g_up_time,

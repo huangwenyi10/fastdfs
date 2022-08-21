@@ -19,6 +19,7 @@ typedef struct {
 } TrackerStatus;
 
 #ifdef __cplusplus
+//目的就是主要实现C与C++的相互调用问题
 extern "C" {
 #endif
 
