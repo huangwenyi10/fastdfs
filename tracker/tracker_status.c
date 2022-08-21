@@ -66,7 +66,11 @@ int tracker_load_status_from_file(TrackerStatus *pStatus)
 	{
 		return 0;
 	}
-
+	//void* memset(void* mem_loc, int c, size_t n);
+    //第一个参数void* mem_loc：已开辟内存空间的首地址，通常为数组名或指针，由于其为void*，故函数能为任何类型的数据进行初始化。
+    //第二个参数int c：初始化使用的内容，取器低字节部分。
+    //第三个参数size_t n：需要初始化的字节数。
+    //将已开辟内存空间 mem_loc 的首 n 个字节的值设为值 c
 	memset(&iniContext, 0, sizeof(IniContext));
 	if ((result=iniLoadFromFile(full_filename, &iniContext)) != 0)
 	{
@@ -76,7 +80,7 @@ int tracker_load_status_from_file(TrackerStatus *pStatus)
 			__LINE__, full_filename, result);
 		return result;
 	}
-
+    // -> 定义了一个结构体，然后申明一个指针指向结构体，当需要用指针取出结构体中的数据，就要用到“->”
 	pStatus->up_time = iniGetIntValue(NULL, TRACKER_STATUS_ITEM_UP_TIME, \
 				&iniContext, 0);
 	pStatus->last_check_time = iniGetIntValue(NULL, \
