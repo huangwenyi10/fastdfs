@@ -90,6 +90,8 @@ int main(int argc, char *argv[])
 	char pidFilename[MAX_PATH_SIZE];
 	bool stop;
 
+    // start the tracker server:
+    // /usr/bin/fdfs_trackerd /etc/fdfs/tracker.conf restart
 	if (argc < 2)
 	{
 		usage(argv[0]);

@@ -286,7 +286,12 @@ int tracker_http_check_start()
 	{
 		return 0;
 	}
-
+    //int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine) (void *), void *arg);
+    //参数1：初始化线程类型的变量
+    //参数2：通常传NULL，表示使用线程默认属性。
+    //参数3：函数指针,该函数运行结束，则线程结束。
+    //参数4：函数的参数
+    //返回值：成功：0； 失败：错误号
 	if ((result=pthread_create(&http_check_tid, NULL, \
 			http_check_entrance, NULL)) != 0)
 	{
@@ -305,7 +310,9 @@ int tracker_http_check_stop()
 	{
 		return 0;
 	}
-
+    //#define SIGINT  2       /* interrupt */
+    //int pthread_kill(pthread_t thread, int sig);
+    //pthread_kill可不是kill，而是向线程发送signal
 	return pthread_kill(http_check_tid, SIGINT);
 }
 

@@ -20,7 +20,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
+//extern 表明变量或者函数是定义在其他其他文件中的
 extern int g_fdfs_connect_timeout;
 extern int g_fdfs_network_timeout;
 extern char g_fdfs_base_path[MAX_PATH_SIZE];
