@@ -87,7 +87,9 @@ int tracker_service_init()
 	{
 		return result;
 	}
+
 	bytes = sizeof(struct nio_thread_data) * g_work_threads;
+	//初始化g_thread_data
 	g_thread_data = (struct nio_thread_data *)malloc(bytes );
 	if (g_thread_data == NULL)
 	{
@@ -237,6 +239,7 @@ static void *accept_thread_entrance(void* arg)
 	struct nio_thread_data *pThreadData;
 
 	server_sock = (long)arg;
+	//定义：volatile bool g_continue_flag = true;
 	while (g_continue_flag)
 	{
 		sockaddr_len = sizeof(inaddr);
@@ -253,7 +256,8 @@ static void *accept_thread_entrance(void* arg)
 
 			continue;
 		}
-
+		//定义：#define DEFAULT_WORK_THREADS     =        4
+		//定义：struct nio_thread_data *g_thread_data = NULL;
 		pThreadData = g_thread_data + incomesock % g_work_threads;
 		if (write(pThreadData->pipe_fds[1], &incomesock, \
 			sizeof(incomesock)) != sizeof(incomesock))
@@ -280,6 +284,7 @@ static void *accept_thread_entrance(void* arg)
 
 void tracker_accept_loop(int server_sock)
 {
+	//定义：int g_accept_threads = 1;
 	if (g_accept_threads > 1)
 	{
 		pthread_t tid;
