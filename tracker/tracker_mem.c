@@ -2338,7 +2338,8 @@ static int tracker_mem_init_groups(FDFSGroups *pGroups)
 int tracker_mem_init()
 {
 	int result;
-
+    //定义：static pthread_mutex_t mem_thread_lock;
+    //pthread_mutex_t : 互斥锁
 	if ((result=init_pthread_lock(&mem_thread_lock)) != 0)
 	{
 		return result;

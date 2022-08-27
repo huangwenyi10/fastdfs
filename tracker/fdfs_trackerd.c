@@ -100,11 +100,13 @@ int main(int argc, char *argv[])
 
 	g_current_time = time(NULL);
 	g_up_time = g_current_time;
+    //是初始化随机函数种子
 	srand(g_up_time);
 
 	log_init2();
 
 	conf_filename = argv[1];
+    //在libfastcommon-shared_func.c中
     if (!fileExists(conf_filename))
     {
         if (starts_with(conf_filename, "-"))
@@ -124,7 +126,7 @@ int main(int argc, char *argv[])
 		"%s/data/fdfs_trackerd.pid", g_fdfs_base_path);
     action = argc >= 3 ? argv[2] : "start";
 	if ((result=process_action(pidFilename, action, &stop)) != 0)
-	{
+	{   //EINVAL表示 无效的参数，即为 invalid argument ，包括参数值、类型或数目无效等。
 		if (result == EINVAL)
 		{
 			usage(argv[0]);
@@ -147,8 +149,9 @@ int main(int argc, char *argv[])
 		return errno != 0 ? errno : ENOENT;
 	}
 #endif
-
+    //将s为首地址的一片连续的n个字节内存单元都赋值为ch
 	memset(bind_addr, 0, sizeof(bind_addr));
+    //从配置文件加载 tracker.conf bind_addr
 	if ((result=tracker_load_from_conf_file(conf_filename, \
 			bind_addr, sizeof(bind_addr))) != 0)
 	{
@@ -178,7 +181,7 @@ int main(int argc, char *argv[])
 		log_destroy();
 		return result;
 	}
-
+    //调用sockopt.c 中socketServer函数，打开监听端口，返回socket句柄
 	sock = socketServer(bind_addr, g_server_port, &result);
 	if (sock < 0)
 	{
@@ -375,7 +378,7 @@ int main(int argc, char *argv[])
 
 	bTerminateFlag = false;
 	bAcceptEndFlag = false;
-
+    //重要方法
 	tracker_accept_loop(sock);
 	bAcceptEndFlag = true;
 	if (g_schedule_flag)
