@@ -77,6 +77,9 @@ static void sigDumpHandler(int sig);
 
 static void usage(const char *program)
 {
+    //%d代表直接输出整数a
+    //%2d代表如果我们输出的数字位数为2
+    //%02d也表示我们输出的数字位数为2，不一样的是，当我们输出的数字位数不够时，左边补0
 	fprintf(stderr, "FastDFS server v%d.%02d\n"
             "Usage: %s <config_file> [start | stop | restart]\n",
             g_fdfs_version.major, g_fdfs_version.minor,
@@ -102,7 +105,7 @@ int main(int argc, char *argv[])
 
 	g_current_time = time(NULL);
 	g_up_time = g_current_time;
-
+    //libfastcommon-logger.c方法
 	log_init2();
 	if ((result=trunk_shared_init()) != 0)
     {
