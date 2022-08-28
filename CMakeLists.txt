@@ -13,10 +13,21 @@ include_directories(/usr/local/include)
 
 add_executable(fastdfs
 
-
-
         test/test_upload.c
         client/fdfs_client.h
+        client/client_func.h
+        client/client_func.c
+        client/client_global.c
+        client/client_global.h
+        client/fdfs_upload_file.c
+        client/fdfs_append_file.c
+        client/fdfs_download_file.c
+        client/tracker_client.c
+        client/tracker_client.h
+        client/storage_client.c
+        client/storage_client1.h
+        client/storage_client.h
+
         common/fdfs_global.c
         common/fdfs_global.h
         common/fdfs_http_shared.c
@@ -56,5 +67,6 @@ add_executable(fastdfs
         storage/fdht_client/fdht_client.h
         storage/fdht_client/fdht_func.c
         storage/fdht_client/fdht_func.h
+
 
         )
