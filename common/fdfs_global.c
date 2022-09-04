@@ -19,7 +19,7 @@
 #include <errno.h>
 #include "fastcommon/logger.h"
 #include "fdfs_global.h"
-
+//#define DEFAULT_CONNECT_TIMEOUT			10
 int g_fdfs_connect_timeout = DEFAULT_CONNECT_TIMEOUT;
 int g_fdfs_network_timeout = DEFAULT_NETWORK_TIMEOUT;
 //加上'\0来表示字符串的结束, 防止运行出错, 手动添加

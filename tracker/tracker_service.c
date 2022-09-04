@@ -187,6 +187,7 @@ int tracker_service_init()
 
 int tracker_terminate_threads()
 {
+        //定义在libfastcommon
         struct nio_thread_data *pThreadData;
         struct nio_thread_data *pDataEnd;
         int quit_sock;
@@ -316,7 +317,7 @@ void tracker_accept_loop(int server_sock)
 			pthread_attr_destroy(&thread_attr);
 		}
 	}
-
+    //
 	accept_thread_entrance((void *)(long)server_sock);
 }
 

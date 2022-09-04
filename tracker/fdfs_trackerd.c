@@ -37,6 +37,10 @@
 #include "tracker_status.h"
 #include "tracker_relationship.h"
 
+/**
+ * main函数
+ */
+
 #ifdef WITH_HTTPD
 #include "tracker_httpd.h"
 #include "tracker_http_check.h"
@@ -84,9 +88,15 @@ int main(int argc, char *argv[])
 	int wait_count;
 	int sock;
 	pthread_t schedule_tid;
-	struct sigaction act;
+    //int sigaction(int signum, const struct sigaction *act, struct sigaction *oldact);
+	//signum是除了SIGKILL和SIGSTOP之外的任何信号；
+    //act非空，新的动作（信号到来时执行的函数）存在act中，如果旧的动作非空，旧动作存在oldact中；
+    //返回值：
+    //sigaction() returns 0 on success and -1 on error.
+    struct sigaction act;
 	ScheduleEntry scheduleEntries[SCHEDULE_ENTRIES_COUNT];
 	ScheduleArray scheduleArray;
+    //MAX_PATH_SIZE 定义在libfastcommon-> common_define.h -> #define MAX_PATH_SIZE  256
 	char pidFilename[MAX_PATH_SIZE];
 	bool stop;
 
@@ -198,6 +208,7 @@ int main(int argc, char *argv[])
 	}
 
 	daemon_init(false);
+    //设置建立新文件时的权限遮罩
 	umask(0);
 	
 	if ((result=write_to_pid_file(pidFilename)) != 0)
@@ -212,11 +223,17 @@ int main(int argc, char *argv[])
 		log_destroy();
 		return result;
 	}
-	
+    //定义：void memset ( void *s , char ch, unsigned n )
+	//函数功能：将s为首地址的一片连续的n个字节内存单元都赋值为ch
 	memset(&act, 0, sizeof(act));
 	sigemptyset(&act.sa_mask);
 
 	act.sa_handler = sigUsrHandler;
+    //定义：int sigaction(int signum, const struct sigaction *act, struct sigaction *oldact);
+    //SIGUSR1: 终止进程    用户定义信号1
+    //SIGUSR2  终止进程    用户定义信号2
+    //返回值：
+    //sigaction() returns 0 on success and -1 on error.
 	if(sigaction(SIGUSR1, &act, NULL) < 0 || \
 		sigaction(SIGUSR2, &act, NULL) < 0)
 	{
@@ -385,6 +402,7 @@ int main(int argc, char *argv[])
 	{
 		pthread_kill(schedule_tid, SIGINT);
 	}
+    //terminate: 结束,终止
 	tracker_terminate_threads();
 
 #ifdef WITH_HTTPD
@@ -412,7 +430,8 @@ int main(int argc, char *argv[])
 		}
 #endif
 */
-
+        //usleep功能把进程挂起一段时间，单位是微秒（百万分之一秒）
+        //10ms
 		usleep(10000);
 		if (++wait_count > 3000)
 		{
@@ -427,7 +446,7 @@ int main(int argc, char *argv[])
 	
 	logInfo("exit normally.\n");
 	log_destroy();
-	
+	//删除pid文件
 	delete_pid_file(pidFilename);
 	return 0;
 }
