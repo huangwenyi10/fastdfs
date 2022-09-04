@@ -947,7 +947,7 @@ int storage_do_upload_file(ConnectionInfo *pTrackerServer, \
 			result, STRERROR(result));
 		break;
 	}
-
+	//重点代码
 	if (upload_type == FDFS_UPLOAD_BY_FILE)
 	{
 		if ((result=tcpsendfile(pStorageServer->sock, file_buff, \

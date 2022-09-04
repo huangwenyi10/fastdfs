@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 		usage(argv);
 		return 1;
 	}
-
+    // 初始化 LogContext对象， 同时初始化互斥锁：pthread_mutex_t log_thread_lock;
 	log_init();
 	g_log_context.log_level = LOG_ERR;
 	ignore_signal_pipe();
@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 	{
 		return result;
 	}
-
+	//连接tracker 服务器
 	pTrackerServer = tracker_get_connection();
 	if (pTrackerServer == NULL)
 	{
@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
 			result, STRERROR(result));
 		return result;
 	}
-
+    //调用storage_upload_by_filename1，完成文件上传
 	result = storage_upload_by_filename1(pTrackerServer, \
 			&storageServer, store_path_index, \
 			local_filename, NULL, \
