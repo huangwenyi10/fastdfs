@@ -3909,7 +3909,7 @@ static int tracker_deal_storage_beat(struct fast_task_info *pTask)
 		break; \
 	} \
 
-//
+//tracker 处理任务
 int tracker_deal_task(struct fast_task_info *pTask)
 {
 	TrackerHeader *pHeader;
