@@ -154,7 +154,7 @@ int tracker_load_from_conf_file(const char *filename, \
     char sz_min_buff_size[32];
     char sz_max_buff_size[32];
 	char reserved_space_str[32];
-
+    //分配内存空间，FDFSGroups，IniContext
 	memset(&g_groups, 0, sizeof(FDFSGroups));
 	memset(&iniContext, 0, sizeof(IniContext));
 	if ((result=iniLoadFromFile(filename, &iniContext)) != 0)

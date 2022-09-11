@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
     //MAX_PATH_SIZE 定义在libfastcommon-> common_define.h -> #define MAX_PATH_SIZE  256
 	char pidFilename[MAX_PATH_SIZE];
 	bool stop;
-
+	//trackerd启动
     // start the tracker server:
     // /usr/bin/fdfs_trackerd /etc/fdfs/tracker.conf restart
 	if (argc < 2)
@@ -125,6 +125,8 @@ int main(int argc, char *argv[])
             return 0;
         }
     }
+    //# the base path to store data and log files
+    //base_path = /home/yuqing/fastdfs
 	if ((result=get_base_path_from_conf_file(conf_filename,
 		g_fdfs_base_path, sizeof(g_fdfs_base_path))) != 0)
 	{
