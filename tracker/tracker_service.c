@@ -90,6 +90,7 @@ int tracker_service_init()
 
 	bytes = sizeof(struct nio_thread_data) * g_work_threads;
 	//初始化g_thread_data
+	//malloc
 	g_thread_data = (struct nio_thread_data *)malloc(bytes );
 	if (g_thread_data == NULL)
 	{
@@ -98,6 +99,7 @@ int tracker_service_init()
 			__LINE__, bytes, errno, STRERROR(errno));
 		return errno != 0 ? errno : ENOMEM;
 	}
+	//
 	memset(g_thread_data, 0, bytes);
 
 	g_tracker_thread_count = 0;
@@ -149,7 +151,12 @@ int tracker_service_init()
 			break;
 		}
 #endif
-
+        //int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine) (void *), void *arg);
+        //参数1：初始化线程类型的变量
+        //参数2：通常传NULL，表示使用线程默认属性。
+        //参数3：函数指针,该函数运行结束，则线程结束。
+        //参数4：函数的参数
+        //返回值：成功：0； 失败：错误号
 		if ((result=pthread_create(&tid, &thread_attr, \
 			work_thread_entrance, pThreadData)) != 0)
 		{
@@ -338,6 +345,7 @@ static void *work_thread_entrance(void* arg)
 			"errno: %d, error info: %s", \
 			__LINE__, result, STRERROR(result));
 	}
+	//因为是全局变量，所以需要加锁
 	g_tracker_thread_count--;
 	if ((result=pthread_mutex_unlock(&tracker_thread_lock)) != 0)
 	{
