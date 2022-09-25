@@ -514,7 +514,7 @@ int fdfs_server_info_to_string_ex(const TrackerServerInfo *pServer,
     len += snprintf(buff + len, buffSize - len, ":%d", port);
     return len;
 }
-
+//获取ip类型
 int fdfs_get_ip_type(const char* ip)
 {
     if (ip == NULL || (int)strlen(ip) < 8)
@@ -534,6 +534,11 @@ int fdfs_get_ip_type(const char* ip)
     if (memcmp(ip, "172.", 4) == 0)
     {
         int b;
+        //int atoi(const char *nptr);
+        //将字符串里的数字字符转化为整形数。返回整形值。
+        //A类地址：10.0.0.0～10.255.255.255
+        //B类地址：172.16.0.0～172.31.255.255
+        //C类地址：192.168.0.0～192.168.255.255
         b = atoi(ip + 4);
         if (b >= 16 && b < 32)
         {
